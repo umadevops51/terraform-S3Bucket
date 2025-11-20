@@ -1,0 +1,60 @@
+trigger: 
+- main     # runs only on git push to main
+
+# none   # Run manually only
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+# ---------------------------
+# 1. Checkout Code
+# ---------------------------
+- checkout: self
+  clean: true
+
+# ---------------------------
+# 2. Use AWS Service Connection
+# ---------------------------
+- task: AWSCLI@1
+  inputs:
+    awsCredentials: 'aws_terraform_sop_connection'        # <<< CHANGE THIS
+    regionName: 'us-east-1'         # Your region
+  displayName: 'Configure AWS Credentials'
+
+# ---------------------------
+# 3. Install Terraform
+# ---------------------------
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+  displayName: 'Install Terraform'
+
+# ---------------------------
+# 4. Terraform Init
+# ---------------------------
+- script: |
+    terraform init
+  displayName: 'Terraform Init'
+
+# ---------------------------
+# 5. Terraform Validate
+# ---------------------------
+- script: |
+    terraform validate
+  displayName: 'Terraform Validate'
+
+# ---------------------------
+# 6. Terraform Plan
+# ---------------------------
+- script: |
+    terraform plan -out=tfplan
+  displayName: 'Terraform Plan'
+
+# ---------------------------
+# 7. Terraform Apply
+# ---------------------------
+- script: |
+    terraform apply -auto-approve tfplan
+  displayName: 'Terraform Apply'
+  condition: succeeded()
