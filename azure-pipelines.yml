@@ -51,6 +51,10 @@ steps:
 - script: |
     terraform init
   displayName: 'Terraform Init'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    AWS_DEFAULT_REGION: us-east-1
 
 # ---------------------------
 # 6. Terraform Validate
@@ -58,6 +62,10 @@ steps:
 - script: |
     terraform validate
   displayName: 'Terraform Validate'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    AWS_DEFAULT_REGION: us-east-1
 
 # ---------------------------
 # 7. Terraform Plan
@@ -65,6 +73,10 @@ steps:
 - script: |
     terraform plan -out=tfplan
   displayName: 'Terraform Plan'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    AWS_DEFAULT_REGION: us-east-1
 
 # ---------------------------
 # 8. Terraform Apply
@@ -72,4 +84,8 @@ steps:
 - script: |
     terraform apply -auto-approve tfplan
   displayName: 'Terraform Apply'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    AWS_DEFAULT_REGION: us-east-1
   condition: succeeded()
