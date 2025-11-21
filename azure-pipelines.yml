@@ -4,7 +4,8 @@ trigger:
 # none   # Run manually only
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: default
+  # vmImage: 'ubuntu-latest'  # for Option 1 once Azure gave free access to run pipeline
 
 steps:
 # ---------------------------
@@ -27,7 +28,7 @@ steps:
 # ---------------------------
 - task: TerraformInstaller@1
   inputs:
-    terraformVersion: 'latest'
+    terraformVersion: '1.13.5'
   displayName: 'Install Terraform'
 
 # ---------------------------
