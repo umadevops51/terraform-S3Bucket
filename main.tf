@@ -1,6 +1,6 @@
 provider "aws" {
   region  = var.region # "us-east-1"
-  profile = var.aws_profile # "terraform-admin"
+  # profile = var.aws_profile # "terraform-admin"
 }
 
 # Generate a random suffix to make the bucket name unique
