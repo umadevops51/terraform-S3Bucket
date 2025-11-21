@@ -19,11 +19,11 @@ steps:
 # ---------------------------
 # 2. Use AWS Service Connection
 # ---------------------------
-- task: AWSCLI@1
-  inputs:
-    awsCredentials: 'aws_terraform_sop_connection'        # <<< CHANGE THIS
-    regionName: 'us-east-1'         # Your region
-  displayName: 'Configure AWS Credentials'
+#- task: AWSCLI@1
+ # inputs:
+  #  awsCredentials: 'aws_terraform_sop_connection'        # <<< CHANGE THIS
+   # regionName: 'us-east-1'         # Your region
+  #displayName: 'Configure AWS Credentials'
 
 # ---------------------------
 # 3. Install Terraform
