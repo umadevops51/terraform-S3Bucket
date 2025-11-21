@@ -1,0 +1,29 @@
+trigger: 
+- main     # runs only on git push to main
+
+# none   # Run manually only
+
+pool:
+  name: default
+  demands:
+  - agent.name -equals LAPTOP-0TDKIKV6  # <-- change to your agent's name
+  # vmImage: 'ubuntu-latest'  # for Option 1 once Azure gave free access to run pipeline
+
+steps:
+# ---------------------------
+# 1. Checkout Code
+# ---------------------------
+- checkout: self
+  clean: true
+
+# ---------------------------
+# 2. Terraform Apply
+# ---------------------------
+- script: |
+    terraform destroy -auto-approve tfplan
+  displayName: 'Terraform destroy'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    AWS_DEFAULT_REGION: us-east-1
+  condition: succeeded()
