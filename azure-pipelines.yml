@@ -5,6 +5,8 @@ trigger:
 
 pool:
   name: default
+  demands:
+  - agent.name -equals LAPTOP-0TDKIKV6  # <-- change to your agent's name
   # vmImage: 'ubuntu-latest'  # for Option 1 once Azure gave free access to run pipeline
 
 steps:
@@ -31,29 +33,41 @@ steps:
     terraformVersion: '1.13.5'
   displayName: 'Install Terraform'
 
+# --------------------------
+# 4. Set AWS credentials using ENV variables
+# --------------------------
+- script: |
+    echo "AWS credentials set from pipeline variables"
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    AWS_DEFAULT_REGION: us-east-1
+  displayName: "Set AWS ENV Variables"
+
+
 # ---------------------------
-# 4. Terraform Init
+# 5. Terraform Init
 # ---------------------------
 - script: |
     terraform init
   displayName: 'Terraform Init'
 
 # ---------------------------
-# 5. Terraform Validate
+# 6. Terraform Validate
 # ---------------------------
 - script: |
     terraform validate
   displayName: 'Terraform Validate'
 
 # ---------------------------
-# 6. Terraform Plan
+# 7. Terraform Plan
 # ---------------------------
 - script: |
     terraform plan -out=tfplan
   displayName: 'Terraform Plan'
 
 # ---------------------------
-# 7. Terraform Apply
+# 8. Terraform Apply
 # ---------------------------
 - script: |
     terraform apply -auto-approve tfplan
